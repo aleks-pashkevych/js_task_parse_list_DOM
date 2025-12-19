@@ -42,8 +42,8 @@ function getEmployees(list) {
 
     val.name = el.textContent;
     val.position = el.dataset.position;
-    val.salary = el.dataset.salary;
-    val.age = el.dataset.age;
+    val.salary = Number(el.dataset.salary.replace(/[^0-9.-]+/g, ''));
+    val.age = Number(el.dataset.age);
 
     arr.push(val);
   });
