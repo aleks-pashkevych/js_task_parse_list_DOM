@@ -2,25 +2,23 @@
 
 const list = [...document.querySelectorAll('li')];
 const rootList = document.querySelector('ul');
-const sorted = sortList(list);
 
-rootList.innerHTML = '';
-
-sorted.forEach((el) => {
-  rootList.appendChild(el);
-});
-
+sortList(list);
 getEmployees(list);
 
 function sortList(items) {
-  items.sort((a, b) => {
+  const sorted = items.sort((a, b) => {
     const currA = helper(a);
     const currB = helper(b);
 
     return currB - currA;
   });
 
-  return items;
+  rootList.innerHTML = '';
+
+  sorted.forEach((el) => {
+    rootList.appendChild(el);
+  });
 }
 
 function helper(arg) {
