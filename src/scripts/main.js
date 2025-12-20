@@ -1,48 +1,41 @@
 'use strict';
 
-const listItem = document.querySelectorAll('li');
-const listRoot = document.querySelector('ul');
-// console.log(listRoot);
+const list = [...document.querySelectorAll('li')];
+const rootList = document.querySelector('ul');
+const sorted = sortList(list);
 
-const newList = sortList(getEmployees(listItem));
+rootList.innerHTML = '';
 
-listItem.forEach((el) => {
-  el.remove();
+sorted.forEach((el) => {
+  rootList.appendChild(el);
 });
 
-newList.forEach((el) => {
-  const listItm = document.createElement('li');
+getEmployees(list);
 
-  listItm.textContent = el.name;
-  listItm.dataset.position = el.position;
-  listItm.dataset.salary = el.salary;
-  listItm.dataset.age = el.age;
-  listRoot.appendChild(listItm);
-});
+function sortList(items) {
+  items.sort((a, b) => {
+    const currA = helper(a);
+    const currB = helper(b);
 
-function sortList(list) {
-  return list.sort(function (a, b) {
-    if (a.salary < b.salary) {
-      return 1;
-    }
-
-    if (a.salary > b.salary) {
-      return -1;
-    }
-
-    return 0;
+    return currB - currA;
   });
+
+  return items;
 }
 
-function getEmployees(list) {
+function helper(arg) {
+  return Number(arg.dataset.salary.replace(/[^0-9.-]+/g, ''));
+}
+
+function getEmployees(employees) {
   const arr = [];
 
-  list.forEach((el) => {
+  employees.forEach((el) => {
     const val = {};
 
     val.name = el.textContent;
     val.position = el.dataset.position;
-    val.salary = Number(el.dataset.salary.replace(/[^0-9.-]+/g, ''));
+    val.salary = helper(el);
     val.age = Number(el.dataset.age);
 
     arr.push(val);
